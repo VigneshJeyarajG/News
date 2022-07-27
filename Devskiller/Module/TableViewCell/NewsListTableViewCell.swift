@@ -7,18 +7,28 @@
 //
 
 import UIKit
+import Kingfisher
 
-class NewsListTableViewCell: UITableViewCell {
-
+class NewsListTableViewCell: UITableViewCell, NibLoadableView {
+    
+    @IBOutlet var authorNameLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var timeLabel: UILabel!
+    @IBOutlet var newsImageView: UIImageView!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func setCell(index:Int) {
+        if NewsArray.info.count != 0 {
+            let info = NewsArray.info[index]
+            authorNameLabel.text = info.author
+            titleLabel.text = info.title
+            print(info.publishedAt)
+            timeLabel.text = getDate(dateString: info.publishedAt)?.timeAgoDisplay()
+            newsImageView.kf.setImage(with:  URL(string: info.urlToImage)!, placeholder: UIImage(named: "placeHolderImage"))
+        }
     }
-    
 }
